@@ -26,6 +26,10 @@ class Cards extends Component {
     this.setState({
       items: filteredItems
     });
+    //trying to update the local storage item to no longer include
+    //the deleted item. but it doesn't work currently
+    localStorage.setItem("items", JSON.stringify(this.state.items));
+    console.log(this.state.items);
   };
   handleInput = e => {
     const itemText = e.target.value;
@@ -47,6 +51,12 @@ class Cards extends Component {
         items: items,
         currentItem: { text: "", key: "" }
       });
+      localStorage.setItem("items", JSON.stringify(items));
+      //this adds adds the items state to the local storage
+      //and prints the result
+      console.log(this.state.items);
+    } else {
+      localStorage.setItem("items", JSON.stringify(this.state.items));
     }
   };
   render() {
