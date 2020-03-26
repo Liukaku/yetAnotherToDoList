@@ -9,8 +9,12 @@ import TodoItems from "./Items";
 import "./index.css";
 
 class Cards extends Component {
-  constructor() {
+  constructor(nextState) {
     super();
+    const whyIsItLikeThis = JSON.parse(localStorage.getItem('items'));
+    JSON.parse(localStorage.getItem('items'))
+  if (!localStorage.getItem('items')) {
+    console.log("beep");
     this.state = {
       items: [],
       currentItem: {
@@ -18,7 +22,40 @@ class Cards extends Component {
         key: ""
       }
     };
+    console.log(this.state.items);
+   } else {
+    console.log("boop");
+    this.state = {
+      items: JSON.parse(localStorage.getItem('items')),
+      currentItem: {
+        text: "",
+        key: ""
+      }
+    };
+    console.log(this.state);
+    console.log(whyIsItLikeThis);
   }
+  }
+
+  getSnapshotBeforeUpdate(prevProps, prevState, nextProps, nextState) {
+    localStorage.setItem('items', JSON.stringify(prevState.items));
+    localStorage.setItem('items', JSON.stringify(prevState.items));
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    localStorage.setItem('items', JSON.stringify(this.state.items));
+    localStorage.setItem('items', JSON.stringify(this.state.items));
+    
+  }
+  
+ /*
+  rememberme = e => {
+    localStorage.setItem('currentItem', JSON.stringify(this.state.items));
+    console.log(JSON.parse(localStorage.getItem('currentItem')));
+  }
+
+  */
+
   deleteItem = key => {
     const filteredItems = this.state.items.filter(item => {
       return item.key !== key;
@@ -26,6 +63,7 @@ class Cards extends Component {
     this.setState({
       items: filteredItems
     });
+    //this.rememberme();
   };
   handleInput = e => {
     const itemText = e.target.value;
@@ -37,6 +75,9 @@ class Cards extends Component {
       currentItem
     });
   };
+  helpButton(){
+    console.log(this.state);
+  }
   addItem = e => {
     e.preventDefault();
     console.log("Item has been added!");
@@ -48,6 +89,8 @@ class Cards extends Component {
         currentItem: { text: "", key: "" }
       });
     }
+    console.log(this.state);
+    //this.rememberme();
   };
   render() {
     return (

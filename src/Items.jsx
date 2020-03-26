@@ -7,8 +7,10 @@ class TodoItems extends Component {
   createTasks = item => {
     return (
       <li key={item.key}>
+        
         <div className="flex-box">
           {item.text}
+          
           <img className="icon" src={edit} alt="" />
           <img
             className="icon delete"
