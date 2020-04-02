@@ -1,3 +1,3 @@
 # Basic Example
 
-A simple [create-react-app](CRA-README.md) setup, showcasing one of the lastest React-Bootstrap components!
+A todo list (and social card example) created in react using local storage to remember your list items [click to view](https://bt3oz.codesandbox.io/) using bootstrap 
