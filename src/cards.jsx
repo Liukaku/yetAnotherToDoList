@@ -6,15 +6,20 @@ import deleter from "../src/assets/delete-xxl.png";
 import TaskItemCard from "./taskItem";
 import TodoItems from "./Items";
 
-import "./index.css";
+import "./index.scss";
+
+var placeholder = document.createElement("li");
+placeholder.id = "placeholder";
+placeholder.className = "15841";
+var theHolder = document.getElementsByClassName("placeholder");
 
 class Cards extends Component {
-  constructor(nextState) {
+  constructor() {
     super();
     const whyIsItLikeThis = JSON.parse(localStorage.getItem('items'));
     JSON.parse(localStorage.getItem('items'))
   if (!localStorage.getItem('items')) {
-    console.log("beep");
+    console.log("empty storage");
     this.state = {
       items: [],
       currentItem: {
@@ -24,7 +29,7 @@ class Cards extends Component {
     };
     console.log(this.state.items);
    } else {
-    console.log("boop");
+    console.log("using local storage");
     this.state = {
       items: JSON.parse(localStorage.getItem('items')),
       currentItem: {
@@ -45,25 +50,132 @@ class Cards extends Component {
   componentDidUpdate(prevProps, prevState) {
     localStorage.setItem('items', JSON.stringify(this.state.items));
     localStorage.setItem('items', JSON.stringify(this.state.items));
+    console.log("allo");
     
   }
+
+  localStorageCheck(){
+    if (!localStorage.getItem('items')) {
+      console.log("empty storage");
+      this.state = {
+        items: [],
+        currentItem: {
+          text: "",
+          key: ""
+        }
+      };
+      console.log(this.state.items);
+     } else {
+      console.log("using local storage");
+      this.state = {
+        items: JSON.parse(localStorage.getItem('items')),
+        currentItem: {
+          text: "",
+          key: ""
+        }
+      };
+    }
+  }
   
- /*
-  rememberme = e => {
-    localStorage.setItem('currentItem', JSON.stringify(this.state.items));
-    console.log(JSON.parse(localStorage.getItem('currentItem')));
+ dragOver(e) {
+  e.preventDefault();
+  this.dragged.style.display = "none";
+  if(e.target.className === 'placeholder') return;
+  this.over = e.target;
+  e.target.parentNode.insertBefore(placeholder, e.target);
+
+  var relY = e.clientY - this.over.offsetTop;
+  var height = this.over.offsetHeight / 2;
+  var parent = e.target.parentNode;
+  if(relY > height) {
+    this.nodePlacement = "after";
+    parent.insertBefore(placeholder, e.target.nextElementSibling);
+  }
+  else if(relY < height) {
+    this.nodePlacement = "before"
+    parent.insertBefore(placeholder, e.target);
   }
 
-  */
+};
+dragStart(e) {
+  this.dragged = e.currentTarget;
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/html', this.dragged);
+  console.log(this.state);
+  this.state = {
+    items: JSON.parse(localStorage.getItem('items')),
+    currentItem: {
+      text: "",
+      key: ""
+    }
+  };   
+  
+  
+};
+
+dragEnd(e) {
+
+
+  this.dragged.style.display = 'block';
+  this.dragged.parentNode.removeChild(placeholder);
+
+  // update state
+  var data = this.state.items;
+  console.log(data[1]);
+  
+  
+  //this function gets the position in the array (state)
+
+  function indexOfObject( arr, key, value ) {
+    var j = -1;
+    var result = arr.some(function(obj, i) {
+      j++
+      return obj[key] == value;
+    })
+
+    if (!result) {
+      return -1
+    } else {
+      return j;
+    }
+  }
+  console.log(parseInt(this.dragged.className, 10));
+  console.log(this.over.className);
+  
+  var from = indexOfObject(data,"key", parseInt(this.dragged.className, 10));
+  var to = indexOfObject(data,"key", parseInt(this.over.className, 10));
+
+  if(this.nodePlacement == "after") to++;
+  
+  //var from = Number(this.dragged.dataset.id);
+  //var to = Number(this.over.dataset);
+
+  console.log(from);
+  
+  console.log(to);
+  if(from < to) to--;
+  
+  data.splice(to, 0, data.splice(from, 1)[0]);
+  
+
+
+  this.setState({
+    items: data,
+    currentItem: { text: "", key: "" }
+   });
+  console.log(this.state);
+  localStorage.setItem('items', JSON.stringify(this.state.items));
+  console.log(this.state);
+};
 
   deleteItem = key => {
     const filteredItems = this.state.items.filter(item => {
       return item.key !== key;
-    });
+    });    
     this.setState({
       items: filteredItems
     });
-    //this.rememberme();
+    
   };
   handleInput = e => {
     const itemText = e.target.value;
@@ -75,9 +187,6 @@ class Cards extends Component {
       currentItem
     });
   };
-  helpButton(){
-    console.log(this.state);
-  }
   addItem = e => {
     e.preventDefault();
     console.log("Item has been added!");
@@ -88,11 +197,67 @@ class Cards extends Component {
         items: items,
         currentItem: { text: "", key: "" }
       });
+      localStorage.setItem('items', JSON.stringify(this.state.items));
     }
-    console.log(this.state);
-    //this.rememberme();
   };
+  beep = e => {
+    console.log("beeping");
+    
+  }
+
+  createTasks = item => {
+    const todoEntries = this.props.entries;
+    var listItems = this.state.items.map((item, i) => {
+      return (
+        <li key={item.key}
+        data-id={this.state.items.key}
+        draggable="true"
+        onDragEnd={this.dragEnd.bind(this)}
+        onDragStart={this.dragStart.bind(this)}
+        className={item.key}
+        >      
+          
+            {item.text}
+            
+            <img className="icon" src={edit} alt="" />
+            <img
+              className="icon delete"
+              src={deleter}
+              alt=""
+              onClick={() => this.deleteItem(item.key)}
+            />
+          
+        </li>
+      );
+    }); 
+  }
+
   render() {
+    
+    const todoEntries = this.props.entries;
+    var listItems = this.state.items.map((item, i) => {
+      return (
+        <li key={item.key}
+        data-id={i}
+        draggable="true"
+        onDragEnd={this.dragEnd.bind(this)}
+        onDragStart={this.dragStart.bind(this)}
+        className={item.key}
+        >      
+          
+            {item.text}
+            
+            <img className="icon" src={edit} alt="" />
+            <img
+              className="icon delete"
+              src={deleter}
+              alt=""
+              onClick={() => this.deleteItem(item.key)}
+            />
+          
+        </li>
+      );
+    }); 
     return (
       <div className="container-fluid d-flex justify-content-center">
         <div className="row">
@@ -106,10 +271,13 @@ class Cards extends Component {
                 editIcon={edit}
                 deleteIcon={deleter}
               />
-              <TodoItems
-                entries={this.state.items}
-                deleteItem={this.deleteItem}
-              />
+              
+              <ul className="theList"
+              id="listID"
+              onDragOver={this.dragOver.bind(this)}
+              >
+              {listItems}
+              </ul>
             </div>
           </div>
           <div className="col-md-4">

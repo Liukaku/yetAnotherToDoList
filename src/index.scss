@@ -22,6 +22,17 @@
   overflow: hidden;
 }
 
+#placeholder {
+  background: rgb(255,240,120);
+  height: 1px;
+  padding: 0px;
+  margin: 0px;
+  &:before {
+    content: "";
+    color: rgb(225,210,90);
+  }
+}
+
 .image-top {
   margin-top: 1rem;
 }
@@ -63,7 +74,8 @@
 
 li {
   display: -ms-flexbox;
-  display: flex;
+  display: block;
+  padding: 10px 10px;
   -ms-flex-direction: column;
   flex-direction: column;
   min-width: 0;
