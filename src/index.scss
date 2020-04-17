@@ -1,3 +1,5 @@
+
+
 .card {
   width: 20rem;
   transition: 0.5s;
@@ -90,7 +92,63 @@ li {
   max-width: 100% !important;
 }
 
+.taskItem{
+  border: 3px !important;
+  border-style: solid !important;
+  border-color: #7e95e0a1 !important;
+  border-radius: 5px;
+  padding: 3px;
+}
+
 .theList{
   padding-left: 0px;
   max-width: 318px;
+  color: #4f566ea1;
+  transition: ease-in-out 0.3s;
+}
+
+.theList li:hover{
+  color: #000;
+  transition: ease-in-out 0.1s;
+  box-shadow: 5px 10px 20px 1px rgba(0, 0, 0, 0.3) !important;
+  transition: 0.5s;
+}
+
+.theList li{
+  background-color: rgba(255, 255, 255, 0.3);
+  
+}
+
+.taskInput{
+  margin-left: 10%;
+}
+
+.createTask{
+  border-radius: 10px;
+  background-color: #fff;
+  color: #94C8D3;
+  border-color: #B6F1FD;
+  border-style: solid;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;overflow: move;
+  transition: ease-in 0.2s;
+  margin-right: 10%;
+}
+
+.createTask:hover{
+  background-color: #A6D0F3;
+  color: #88ADCB;
+  border-color: #A6D0F3;
+  transition: ease-in 0.2s;
+}
+
+.headerBox{
+background-color: #fff !important;
+}
+
+
+.taskHeader{
+  padding-left: 40%;
+  color: #697085a1;
 }
