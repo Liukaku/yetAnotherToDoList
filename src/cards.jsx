@@ -280,9 +280,6 @@ dragEnd(e) {
               </ul>
             </div>
           </div>
-          <div className="col-md-4">
-            <Card imgsrc={img1} title="Testy testing" />
-          </div>
         </div>
       </div>
     );
