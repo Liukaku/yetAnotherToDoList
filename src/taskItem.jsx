@@ -6,7 +6,7 @@ const TaskItemCard = props => {
   return (
     <div className="card taskItem">
       <div className="flex-box headerBox">
-        <h4 className="taskHeader float-left">Test</h4>
+        <h4 className="taskHeader float-left">Tasks</h4>
         <div className="flex-box float-right">
           <img className="icon" src={props.editIcon} alt="" />
           <img className="icon delete" src={props.deleteIcon} alt="" />
