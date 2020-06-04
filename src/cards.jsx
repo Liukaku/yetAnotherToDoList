@@ -4,7 +4,6 @@ import img1 from "../src/assets/stock.jpeg";
 import edit from "../src/assets/edit-xxl.png";
 import deleter from "../src/assets/delete-xxl.png";
 import TaskItemCard from "./taskItem";
-import TodoItems from "./Items";
 
 import "./index.scss";
 
