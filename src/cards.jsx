@@ -205,32 +205,6 @@ dragEnd(e) {
     
   }
 
-  createTasks = item => {
-    const todoEntries = this.props.entries;
-    var listItems = this.state.items.map((item, i) => {
-      return (
-        <li key={item.key}
-        data-id={this.state.items.key}
-        draggable="true"
-        onDragEnd={this.dragEnd.bind(this)}
-        onDragStart={this.dragStart.bind(this)}
-        className={item.key}
-        >      
-          
-            {item.text}
-            
-            <img className="icon" src={edit} alt="" />
-            <img
-              className="icon delete"
-              src={deleter}
-              alt=""
-              onClick={() => this.deleteItem(item.key)}
-            />
-          
-        </li>
-      );
-    }); 
-  }
 
   render() {
     
@@ -258,6 +232,8 @@ dragEnd(e) {
         </li>
       );
     }); 
+    console.log(typeof listItems);
+    
     return (
       <div className="container-fluid d-flex justify-content-center">
         <div className="row">
